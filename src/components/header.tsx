@@ -4,6 +4,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { Link } from '@tanstack/react-router';
+import { Routes } from '../utils/routes.enum';
 
 export const Header = () => {
   const { logout } = useAuth0();
@@ -17,11 +18,11 @@ export const Header = () => {
     >
       <div className="flex items-center justify-between w-full text-black">
         <div className="flex items-center gap-10">
-          <Link to="/" className="font-medium">
+          <Link to={Routes.ROOT} className="font-medium">
             Profile
           </Link>
 
-          <Link to="/users" className="font-medium">
+          <Link to={Routes.USERS} className="font-medium">
             Users
           </Link>
         </div>

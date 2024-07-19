@@ -6,12 +6,13 @@ import { User } from '../types/user'
 import { AddUserModal } from '../components/add-user-modal'
 import editIcon from '../assets/edit-button.svg';
 import closeIcon from '../assets/close-button.svg';
+import { Routes } from '../utils/routes.enum'
 
-export const Route = createFileRoute('/users')({
+export const Route = createFileRoute(Routes.USERS)({
   component: Users,
   beforeLoad: ({ context }) => {
     if (!context.isAuthenticated) {
-      throw redirect({to: '/login'});
+      throw redirect({to: Routes.LOGIN});
     }
   }
 })

@@ -1,12 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@material-tailwind/react';
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { Routes } from '../utils/routes.enum';
 
 export const Route = createFileRoute('/login')({
   component: Login,
   beforeLoad: ({ context }) => {
     if (context.isAuthenticated) {
-      throw redirect({to: '/'});
+      throw redirect({to: Routes.ROOT});
     }
   }
 })

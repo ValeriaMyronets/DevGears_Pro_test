@@ -3,6 +3,7 @@ import { Button, Input } from "@material-tailwind/react";
 import { createUser, updateUser } from '../api/users';
 import { User } from '../types/user';
 import { toast } from 'react-toastify';
+import { validateInputs } from '../utils/helpers';
 
 type AddUserModalProps = {
   onClose: () => void;
@@ -26,38 +27,10 @@ export const AddUserModal = ({ onClose, updateUsers, editMode, selectedUser }: A
     }
   }, [editMode, selectedUser]);
 
-  const validateInputs = () => {
-    const errors = { name: '', email: '', phone: '' };
-
-    let isValid = true;
-
-    if (!name.trim()) {
-      errors.name = 'Name is required';
-      isValid = false;
-    }
-
-    if (!email.trim()) {
-      errors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = 'Email is invalid';
-      isValid = false;
-    }
-
-    if (!phone.trim()) {
-      errors.phone = 'Phone is required';
-      isValid = false;
-    } else if (!/^\d{10}$/.test(phone)) {
-      errors.phone = 'Phone number must be 10 digits';
-      isValid = false;
-    }
-
-    setErrorMessage(errors);
-    return isValid;
-  };
+  
 
   const handleCreate = () => {
-    if (validateInputs()) {
+    if (validateInputs(name, email, phone, setErrorMessage)) {
       const newUser = { name, email, phone };
 
       createUser(newUser)
@@ -70,12 +43,12 @@ export const AddUserModal = ({ onClose, updateUsers, editMode, selectedUser }: A
     }
   }
   const handleUpdate = () => {
-    if (validateInputs() && selectedUser) {
-      const updatedUser = { ...selectedUser, name, email, phone };
+    if (validateInputs(name, email, phone, setErrorMessage) && selectedUser) {
+      const userForUpdate = { ...selectedUser, name, email, phone };
 
-      updateUser(updatedUser)
-        .then((user) => {
-          updateUsers((users) => users.map((u) => u.id === user.id ? user : u));
+      updateUser(userForUpdate)
+        .then((updatedUser) => {
+          updateUsers((users) => users.map((user) => user.id === updatedUser.id ? updatedUser : user));
           toast.success('User updated successfully');
           onClose();
         })

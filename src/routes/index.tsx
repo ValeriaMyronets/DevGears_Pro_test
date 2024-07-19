@@ -1,12 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Card, CardHeader, CardBody, Typography, Avatar } from "@material-tailwind/react";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Routes } from "../utils/routes.enum";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute(Routes.ROOT)({
   component: Home,
   beforeLoad: ({ context }) => {
     if (!context.isAuthenticated) {
-      throw redirect({to: '/login'});
+      throw redirect({to: Routes.LOGIN});
     }
   }
 });
